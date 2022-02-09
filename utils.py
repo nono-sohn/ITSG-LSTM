@@ -32,18 +32,20 @@ def processing_bl(cargo, bl_dir, bl_file):
     bl_data = pd.read_csv(bl_dir+bl_file, encoding='cp949', engine='python')
     bl_data = bl_data[['선명','입항년도', '호출부호', '입항횟수','입출항일시','수출입구분','시설명','적하국가명','적하항구명','양하국가명','양하항구명','품목코드','품명','중량톤','용적톤','송하인','수하인']]
     
+    # Null processing for throughput
     bl_data = bl_data.loc[~(bl_data['중량톤'].isnull()&bl_data['용적톤'].isnull()),:].reset_index(drop=True)
     bl_data['용적톤'] = bl_data['용적톤'].fillna(0.0)
     bl_data['중량톤'] = bl_data['중량톤'].fillna(0.0)
 
+    # Processing Datetime
     bl_data['date'] = pd.to_datetime(bl_data['입출항일시']).dt.to_period('S')
     bl_data = bl_data.sort_values(by='date', ascending=True).reset_index(drop=True) #시간 순으로 변경
 
-    # Country
+    # Entry Purpose & Country
     bl_data['purpose'] = np.where(bl_data['수출입구분'].isin(['II','IT']), '수입', '수출')
     bl_data['country'] = np.where(bl_data['purpose'].isin(['수입']), bl_data['적하국가명'], bl_data['양하국가명'])
 
-    # Category
+    # Category (Define category from HS code(품목코드))
     bl_data['code1']=bl_data['품목코드'].apply(lambda x: str(x)[:2])
     bl_data['code2']=bl_data['품목코드'].apply(lambda x: str(x)[:4])
     bl_data['category'] = 'NA'
@@ -65,7 +67,7 @@ def processing_bl(cargo, bl_dir, bl_file):
 
 
 
-    # Throughput
+    # Change variable name & processing
     bl_data['throughput'] = np.where(bl_data['중량톤']>bl_data['용적톤']*0.883, bl_data['중량톤'], bl_data['용적톤'])
     bl_data['hscode'] = bl_data['품목코드'].astype(str)
     bl_data['name'] = bl_data['품명'].apply(lambda x: whitespace_clean(x))
