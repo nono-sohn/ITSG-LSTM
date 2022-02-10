@@ -25,22 +25,30 @@ torch >= 1.7.1
 
 # Arguments
 --cargo : cargo type ex) LBC, DBC
+
 --target : target port throughput ex) total(TOTAL THROUGHPUT), crude (CRUDE OIL)
 
 --input_dim  
+
 --gcn_dim
+
 --lstm_dim
+
 --output_dim
 
 --epochs
+
 --learning_rate
 
 --cut_off : threshold for edge connection
+
 --seq_length    
 
 --window : hyperparameter of Word2vec model
+
 --size : hyperparameter of Word2vec model
 
 --split_ratio : train-test ratio
+
 ...
 
