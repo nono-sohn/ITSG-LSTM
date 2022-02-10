@@ -2,14 +2,22 @@
 This is a implementation of ITSG-LSTM: Inter-Country Trade Similarity Graph-Based Long Short-Term Memory for Port Throughput Prediction.
 
 # Requirement
-Python 3.7.9 //
+Python 3.7.9 
+
 numpy >= 1.19.2
+
 pandas >= 1.2.1
+
 gensim >= 3.8.3
+
 dgl >= 0.5.3
+
 networkx >= 2.5
+
 regex >= 2022.1.18
+
 scikit-learn >= 0.24.1
+
 torch >= 1.7.1
 
 # Implementation
